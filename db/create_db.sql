@@ -1,6 +1,7 @@
-CREATE TABLE crews (
+CREATE TABLE characters (
    id INT NOT NULL AUTO_INCREMENT,
-   name VARCHAR(200) NOT NULL,
+   token VARCHAR(200) NOT NULL,
+   display_name VARCHAR(200) NOT NULL,
    PRIMARY KEY (id)
 );
 
@@ -29,7 +30,8 @@ CREATE TABLE climbs (
    user_id INT,
    date DATE,
    category VARCHAR(10),
-   difficulty VARCHAR(10),
+   rating VARCHAR(10),
+   isChallenge BOOLEAN,
    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY (id),
    FOREIGN KEY (user_id) REFERENCES users (id)

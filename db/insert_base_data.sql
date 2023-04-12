@@ -1,21 +1,16 @@
-INSERT INTO crews (name) 
+INSERT INTO characters (token, display_name) 
 VALUES 
-   ('sun pirates'),
-   ('barto club'),
-   ('heart pirates'),
-   ('tontatta pirates'),
-   ("buggy's delivery"),
-   ('thriller bark pirates'),
-   ('fire tank pirates'),
-   ('the kid pirates'),
-   ('the kuja pirates'),
-   ('blackbeard pirate fleet'),
-   ('big mom pirates'),
-   ('the beast pirates'),
-   ('the red hair pirates'),
-   ('the whitebeard pirates'),
-   ('donquixote family'),
-   ('marines');
+   ('luffy', 'Luffy'),
+   ('zoro', 'Zoro'),
+   ('nami', 'Nami'),
+   ('usopp', 'Usopp'),
+   ("sanji", 'Sanji'),
+   ('chopper', 'Tony Tony Chopper'),
+   ('robin', 'Nico Robin'),
+   ('franky', 'Franky'),
+   ('brooke', 'Brooke'),
+   ('jimbe', 'Jimbe'),
+   ('vivi', 'Vivi');
 
 INSERT INTO users (name, crew_id, toprope, boulder) 
 VALUES 
