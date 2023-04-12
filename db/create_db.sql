@@ -28,8 +28,8 @@ CREATE TABLE climbs (
    id INT NOT NULL AUTO_INCREMENT,
    user_id INT,
    date DATE,
-   category CHAR,
-   difficulty CHAR,
+   category VARCHAR(10),
+   difficulty VARCHAR(10),
    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY (id),
    FOREIGN KEY (user_id) REFERENCES users (id)
