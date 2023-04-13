@@ -1,6 +1,9 @@
 package models
 
 type User struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID             int
+	Name           string
+	CharacterToken string
+	Boulder        BoulderDifficulty
+	TopRope        TopRopeDifficulty
 }

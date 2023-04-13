@@ -1,4 +1,4 @@
-package db
+package models
 
 type BoulderDifficulty uint8
 
@@ -21,4 +21,11 @@ const (
 	TopRopeDifficulty_5_10 TopRopeDifficulty = 4
 	TopRopeDifficulty_5_11 TopRopeDifficulty = 5
 	TopRopeDifficulty_5_12 TopRopeDifficulty = 6
+)
+
+type ClimbCategory uint8
+
+const (
+	ClimbCategory_Boulder ClimbCategory = 0
+	ClimbCategory_TopRope ClimbCategory = 1
 )
