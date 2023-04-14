@@ -16,7 +16,6 @@ type postClimbRequest struct {
 	Rating      int    `json:"rating"`
 	Date        string `json:"date"`
 	IsChallenge bool   `json:"is_challenge"`
-	Notes       string `json:"notes"`
 }
 
 func (req *postClimbRequest) toModel() *models.Climb {

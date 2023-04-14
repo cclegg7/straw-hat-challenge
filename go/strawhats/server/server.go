@@ -24,6 +24,8 @@ func (s *Server) Serve() error {
 	http.HandleFunc("/climb", s.postClimbHandler)
 	http.HandleFunc("/run", s.postRunHandler)
 	http.HandleFunc("/scores", s.getScoresHandler)
+	http.HandleFunc("/runs", s.listUserRunsHandler)
+	http.HandleFunc("/climbs", s.listUserClimbsHandler)
 	fmt.Println("Serving!")
 	return http.ListenAndServe(":8080", nil)
 }

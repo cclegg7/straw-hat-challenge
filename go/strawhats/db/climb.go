@@ -85,3 +85,31 @@ func (d *Database) GetTopClimbsForUsers(users []*models.User, start, end time.Ti
 
 	return results, nil
 }
+
+const selectUserClimbsQuery = "SELECT date, rating, is_challenge, created_at FROM climbs WHERE user_id = ? AND category = ? ORDER BY date DESC"
+
+func (d *Database) ListUserClimbs(userID int, category int) ([]*models.Climb, error) {
+	rows, err := d.db.Query(selectUserClimbsQuery, userID, category)
+	if err != nil {
+		return nil, fmt.Errorf("error querying for climbs for a user: %w", err)
+	}
+	defer rows.Close()
+
+	var climbs []*models.Climb
+	for rows.Next() {
+		climb := &models.Climb{}
+		if err := rows.Scan(&climb.Date, &climb.Rating, &climb.IsChallenge, &climb.CreatedAt); err != nil {
+			return nil, fmt.Errorf("error reading a climb: %w", err)
+		}
+		climbs = append(climbs, climb)
+	}
+	
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error on user climbs result: %w", err)
+	}
+	return climbs, nil
+
+}
+
+
+
