@@ -8,26 +8,27 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
+  <link
+    rel="icon"
+    type="image/x-icon"
+    href="/images/character_icons/luffy.svg"
+  />
   <body>
     <title>Straw Hat Challenge</title>
-    <div class="card">
-      <!-- <div class="card-header">Current Rotation Challenge</div> -->
-      <div class="card-body">
-        <h5 class="card-title">
-          Current rotation challenge: Monkey (D. Luffy) Bars
-        </h5>
-        <p class="card-text">
-          Complete an overhang climb and score an additional 25 points!
-        </p>
-        <!-- <img src="images/challenge_icons/luffy_pretimeskip.webp" /> -->
+    <div class="card m-3">
+      <div class="card-header">
+        <h6 class="card-title">
+          Monkey (D. Luffy) Bars: Complete an overhang climb and score an
+          additional 25 points!
+        </h6>
       </div>
     </div>
 
     <h1>Straw Hat Challenge</h1>
 
-    <container>
+    <container style="width: 100%">
       <table
-        class="table table-striped table-hover table-sm"
+        class="table table-striped table-hover table-sm center"
         style="width: 30%"
       >
         <tbody id="scoreboard">
@@ -40,10 +41,12 @@
         </tbody>
         <!-- Scores inserted here by javascript on page load  -->
       </table>
+      <div class="button-row">
+        <a class="btn btn-primary" href="log-run.html">Log a Run</a>
+        <a class="btn btn-primary" href="log-toprope.html">Log a Top Rope</a>
+        <a class="btn btn-primary" href="log-boulder.html">Log a Boulder</a>
+      </div>
     </container>
-    <a class="btn btn-primary" href="log-run.html">Log a Run</a>
-    <a class="btn btn-primary" href="log-toprope.html">Log a Top Rope</a>
-    <a class="btn btn-primary" href="log-boulder.html">Log a Boulder</a>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

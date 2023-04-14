@@ -12,3 +12,15 @@ form {
 h1 {
   text-align: center;
 }
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button-row {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+}
