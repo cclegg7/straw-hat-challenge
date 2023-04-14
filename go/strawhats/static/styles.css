@@ -1,8 +1,14 @@
-table, th, td {
-    border:1px solid black;
+table {
+  border: 1px solid black;
+  table-layout: fixed;
+  width: 50%;
 }
 
 form {
-    margin-top: 0px;
-    padding-top: 0px;
-  }
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+h1 {
+  text-align: center;
+}

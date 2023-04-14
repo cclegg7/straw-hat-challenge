@@ -20,6 +20,7 @@ func NewDatabase() (*Database, error) {
 		Addr:                 "localhost",
 		DBName:               "straw_hat_challenge",
 		AllowNativePasswords: true,
+		ParseTime: true,
 	}
 
 	// Get a database handle.

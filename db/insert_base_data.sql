@@ -14,9 +14,9 @@ VALUES
 
 INSERT INTO users (name, character_id, toprope, boulder)
 VALUES 
-   ('brenda',1, 1, 1),
+   ('brenda',6, 1, 1),
    ('chris',9, 4, 3),
-   ('kelsey',5, 4, 3),
+   ('kelsey',4, 4, 3),
    ('michael',2, 3, 3),
-   ('victoria',6, 2, 2);
+   ('victoria',5, 2, 2);
 
