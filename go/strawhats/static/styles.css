@@ -4,6 +4,10 @@ table {
   width: 50%;
 }
 
+.scoreboard__row {
+  cursor: pointer;
+}
+
 form {
   margin-top: 0px;
   padding-top: 0px;
@@ -23,4 +27,19 @@ h1 {
   width: 100%;
   justify-content: center;
   gap: 10px;
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+}
+
+#userSelect {
+  flex-grow: 0;
+}
+
+#logo {
+  cursor: pointer;
 }

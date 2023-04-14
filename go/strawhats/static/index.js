@@ -3,8 +3,9 @@ const scoreboard = document.getElementById("scoreboard");
 async function populateScoreboard() {
   const scoresResponse = await fetch("/scores");
   const { scores } = await scoresResponse.json();
-  scores.forEach(({ rank, user_name, character_token, score }) => {
+  scores.forEach(({ rank, user_id, user_name, character_token, score }) => {
     const row = document.createElement("tr");
+    row.classList.add('scoreboard__row');
 
     // add rank
     const rankCell = document.createElement("td");
@@ -31,6 +32,11 @@ async function populateScoreboard() {
 
     // add row to table
     scoreboard.appendChild(row);
+
+    row.addEventListener('click', async function(e) {
+      e.preventDefault();
+      window.location = `/profile.html?user_id=${user_id}`;
+    });
   });
 }
 

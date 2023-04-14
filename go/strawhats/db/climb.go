@@ -103,13 +103,10 @@ func (d *Database) ListUserClimbs(userID int, category int) ([]*models.Climb, er
 		}
 		climbs = append(climbs, climb)
 	}
-	
+
 	if err := rows.Err(); err != nil {
 		return nil, fmt.Errorf("error on user climbs result: %w", err)
 	}
 	return climbs, nil
 
 }
-
-
-

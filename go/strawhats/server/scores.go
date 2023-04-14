@@ -11,6 +11,7 @@ import (
 type scoreEntry struct {
 	Rank           int    `json:"rank"`
 	UserName       string `json:"user_name"`
+	UserID         int    `json:"user_id"`
 	CharacterToken string `json:"character_token"`
 	Score          int    `json:"score"`
 }
@@ -24,6 +25,7 @@ func (res *getScoresResponse) fromScores(scores []*scoreboard.Score) {
 		res.Scores = append(res.Scores, &scoreEntry{
 			Rank:           i + 1,
 			UserName:       score.User.Name,
+			UserID:         score.User.ID,
 			CharacterToken: score.User.CharacterToken,
 			Score:          score.Points,
 		})

@@ -1,3 +1,16 @@
+const queryString = window.location.search;
+const queryParams = new URLSearchParams(queryString)
+let userID = queryParams.get('user_id');
+if (!userID) {
+  queryParams.set('user_id', "1");
+  userID = 1;
+}
+const userSelect = document.getElementById('userSelect');
+userSelect.value=userID;
+userSelect.addEventListener('change', function(event) {
+  window.location = `/profile.html?user_id=${userSelect.value}`;
+});
+
 const runsTable = document.getElementById("runsTable");
 const bouldersTable = document.getElementById("bouldersTable");
 const topropesTable = document.getElementById("topropesTable");
@@ -20,19 +33,19 @@ const topropeRatings = {
 };
 
 async function fetchRuns() {
-  const runsResponse = await fetch("/runs?user_id=2");
+  const runsResponse = await fetch(`/runs?user_id=${userID}`);
   const { runs } = await runsResponse.json();
   return runs;
 }
 
 async function fetchBoulders() {
-  const bouldersResponse = await fetch("/climbs?user_id=2&category=0");
+  const bouldersResponse = await fetch(`/climbs?user_id=${userID}&category=0`);
   const { climbs } = await bouldersResponse.json();
   return climbs;
 }
 
 async function fetchTopropes() {
-  const topropesResponse = await fetch("/climbs?user_id=2&category=1");
+  const topropesResponse = await fetch(`/climbs?user_id=${userID}&category=1`);
   const { climbs } = await topropesResponse.json();
   return climbs;
 }
@@ -49,15 +62,17 @@ async function populateTables() {
   populateTopropes(topropes);
 }
 
-// convert date string to date: new Date(runs[0].Date).toDateString()
+function formatDate(date) {
+  return `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`
+}
 
 function populateRuns(runs) {
-  runs.forEach(({ date, distance, created_at }) => {
+  runs?.forEach(({ date, distance, created_at }) => {
     const row = document.createElement("tr");
 
     // add date
     const dateCell = document.createElement("td");
-    const mod_date = new Date(date).toDateString();
+    const mod_date = formatDate(new Date(date));
     dateCell.appendChild(document.createTextNode(mod_date));
     row.appendChild(dateCell);
 
@@ -69,7 +84,7 @@ function populateRuns(runs) {
 
     // add created at
     const createdAtCell = document.createElement("td");
-    const mod_createdAt = new Date(created_at).toDateString();
+    const mod_createdAt = new Date(created_at).toString();
     createdAtCell.appendChild(document.createTextNode(mod_createdAt));
     row.appendChild(createdAtCell);
 
@@ -79,12 +94,12 @@ function populateRuns(runs) {
 }
 
 function populateBoulders(boulders) {
-  boulders.forEach(({ date, rating, is_challenge, created_at }) => {
+  boulders?.forEach(({ date, rating, is_challenge, created_at }) => {
     const row = document.createElement("tr");
 
     // add date
     const dateCell = document.createElement("td");
-    const mod_date = new Date(date).toDateString();
+    const mod_date = formatDate(new Date(date));
     dateCell.appendChild(document.createTextNode(mod_date));
     row.appendChild(dateCell);
 
@@ -102,7 +117,7 @@ function populateBoulders(boulders) {
 
     // add created at
     const createdAtCell = document.createElement("td");
-    const mod_createdAt = new Date(created_at).toDateString();
+    const mod_createdAt = new Date(created_at).toString();
     createdAtCell.appendChild(document.createTextNode(mod_createdAt));
     row.appendChild(createdAtCell);
 
@@ -112,12 +127,12 @@ function populateBoulders(boulders) {
 }
 
 function populateTopropes(topropes) {
-  topropes.forEach(({ date, rating, is_challenge, created_at }) => {
+  topropes?.forEach(({ date, rating, is_challenge, created_at }) => {
     const row = document.createElement("tr");
 
     // add date
     const dateCell = document.createElement("td");
-    const mod_date = new Date(date).toDateString();
+    const mod_date = formatDate(new Date(date));
     dateCell.appendChild(document.createTextNode(mod_date));
     row.appendChild(dateCell);
 
@@ -135,7 +150,7 @@ function populateTopropes(topropes) {
 
     // add created at
     const createdAtCell = document.createElement("td");
-    const mod_createdAt = new Date(created_at).toDateString();
+    const mod_createdAt = new Date(created_at).toString();
     createdAtCell.appendChild(document.createTextNode(mod_createdAt));
     row.appendChild(createdAtCell);
 

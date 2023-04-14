@@ -51,6 +51,3 @@ func (s *Server) listUserClimbsHandler(w http.ResponseWriter, httpReq *http.Requ
 
 	w.Write(jsonResponse)
 }
-
-
-
