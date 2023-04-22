@@ -12,4 +12,4 @@ INSERT INTO
         toprope,
         boulder
     )
-VALUES ('brenda', 6, 2, 1), ('chris', 9, 4, 3), ('kelsey', 4, 4, 3), ('michael', 2, 3, 3), ('victoria', 5, 2, 2);
+VALUES ('brenda', 6, 2, 1), ('chris', 9, 4, 3), ('kelsey', 4, 4, 3), ('michael', 2, 3, 3), ('victoria', 5, 2, 2), ('ernesto', 8, 3, 3);
