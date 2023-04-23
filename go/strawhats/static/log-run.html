@@ -1,61 +1,77 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="/images/character_icons/luffy.svg"
+    />
+    <title>Log a Run</title>
+  </head>
 
-<head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/x-icon" href="/images/character_icons/luffy.svg" />
-</head>
+  <body>
+    <nav class="navbar-light bg-light nav">
+      <img
+        id="logo"
+        style="width: 75px; height: 75px"
+        src="images/character_icons/luffy.svg"
+      />
+      <h2>Log a Run</h2>
+    </nav>
 
-<body>
-  <title>Log a Run</title>
-  <nav class="navbar-light bg-light nav">
-    <img id="logo" style="width: 75px; height: 75px" src="images/character_icons/luffy.svg" />
-    <h2>Log a Run</h2>
-  </nav>
-  <form action="" id="runForm">
-    <div class="container">
-      <div class="form-group row p-2">
-        <label class="input-group-text col-sm-2 col-form-label" for="user_id">User</label>
-        <div class="col-sm-10">
-          <select class="form-select" id="user_id" name="user_id">
-            <option value="1">brenda</option>
-            <option value="2">chris</option>
-            <option value="6">ernesto</option>
-            <option value="3">kelsey</option>
-            <option value="4">michael</option>
-            <option value="5">victoria</option>
-          </select>
+    <div class="container-fluid">
+      <form id="runForm" action="">
+        <div class="row mb-3">
+          <label for="user_id" class="col-sm-2 col-form-label">User</label>
+          <div class="col-sm-10">
+            <select class="form-select" id="user_id" name="user_id">
+              <option value="1">brenda</option>
+              <option value="2">chris</option>
+              <option value="6">ernesto</option>
+              <option value="3">kelsey</option>
+              <option value="4">michael</option>
+              <option value="5">victoria</option>
+            </select>
+          </div>
         </div>
-      </div>
-
-      <div class="form-group row p-2" data-provide="datepicker">
-        <label class="input-group-text col-sm-2 col-form-label" for="date">Date</label>
-        <div class="col-sm-10">
-          <input type="date" name="date" class="form-control" id="date" />
+        <div class="row mb-3">
+          <label for="date" class="col-sm-2 col-form-label">Date</label>
+          <div class="col-sm-10" data-provide="datepicker">
+            <input type="date" name="date" class="form-control" id="date" />
+          </div>
         </div>
-      </div>
-
-      <div class="form-group row p-2">
-        <label for="distance" class="input-group-text col-sm-2 col-form-label">Distance</label>
-        <div class="col-sm-10">
-          <input type="number" class="form-control" id="distance" name="distance" placeholder="Round to nearest mile" />
+        <div class="row mb-3">
+          <label for="distance" class="col-sm-2 col-form-label">Distance</label>
+          <div class="col-sm-10">
+            <input
+              type="number"
+              class="form-control"
+              id="distance"
+              name="distance"
+              placeholder="Round to nearest mile"
+            />
+          </div>
         </div>
-      </div>
-
-      <div class="d-grid gap-2 form-group row p-2">
-        <button class="btn btn-primary" type="submit">Submit</button>
-      </div>
+        <div class="d-grid gap-2 form-group row p-2">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </form>
     </div>
-  </form>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
-  <script src="/shared.js"></script>
-  <script src="/log-run.js"></script>
-</body>
-
+    <script src="/shared.js"></script>
+    <script src="/log-run.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
