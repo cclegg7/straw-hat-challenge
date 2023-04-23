@@ -1,20 +1,13 @@
-table {
-  border: 1px solid black;
-  table-layout: fixed;
-  width: 50%;
-}
-
 .scoreboard__row {
   cursor: pointer;
 }
 
-form {
-  margin-top: 0px;
-  padding-top: 0px;
+.scoreboard_title {
+  text-align: center;
 }
 
-h1 {
-  text-align: center;
+.scoreboard_width {
+  max-width: 600px;
 }
 
 .center {
