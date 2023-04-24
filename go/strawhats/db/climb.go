@@ -10,12 +10,18 @@ import (
 
 const insertClimbStatement = "INSERT INTO `climbs` (`user_id`, `category`, `rating`, `is_challenge`, `date`) VALUES (?, ?, ?, ?, ?)"
 
-func (d *Database) CreateClimb(climb *models.Climb) error {
-	_, err := d.db.ExecContext(context.Background(), insertClimbStatement, climb.UserID, climb.Category, climb.Rating, climb.IsChallenge, formatDate(climb.Date))
+func (d *Database) CreateClimb(climb *models.Climb) (int, error) {
+	result, err := d.db.ExecContext(context.Background(), insertClimbStatement, climb.UserID, climb.Category, climb.Rating, climb.IsChallenge, formatDate(climb.Date))
 	if err != nil {
-		return fmt.Errorf("error inserting climb: %w", err)
+		return 0, fmt.Errorf("error inserting climb: %w", err)
 	}
-	return nil
+
+	climbId, err := result.LastInsertId()
+	if err != nil {
+		return 0, fmt.Errorf("error getting climb id: %w", err)
+	}
+
+	return int(climbId), nil
 }
 
 type AggregateClimbs struct {
@@ -86,10 +92,17 @@ func (d *Database) GetTopClimbsForUsers(users []*models.User, start, end time.Ti
 	return results, nil
 }
 
-const selectUserClimbsQuery = "SELECT date, rating, is_challenge, created_at FROM climbs WHERE user_id = ? AND category = ? ORDER BY date DESC"
+const selectUserClimbsWithFilesQuery = "SELECT date, rating, is_challenge, created_at, f.token, f.url, f.content_type FROM climbs c LEFT OUTER JOIN files f ON (c.id = f.climb_id) WHERE user_id = ? AND category = ? ORDER BY date DESC"
 
-func (d *Database) ListUserClimbs(userID int, category int) ([]*models.Climb, error) {
-	rows, err := d.db.Query(selectUserClimbsQuery, userID, category)
+type selectUserClimbsWithFilesRow struct {
+	climb           *models.Climb
+	fileToken       *string
+	fileURL         *string
+	fileContentType *string
+}
+
+func (d *Database) ListUserClimbsWithFiles(userID int, category int) ([]*models.Climb, error) {
+	rows, err := d.db.Query(selectUserClimbsWithFilesQuery, userID, category)
 	if err != nil {
 		return nil, fmt.Errorf("error querying for climbs for a user: %w", err)
 	}
@@ -97,11 +110,21 @@ func (d *Database) ListUserClimbs(userID int, category int) ([]*models.Climb, er
 
 	var climbs []*models.Climb
 	for rows.Next() {
-		climb := &models.Climb{}
-		if err := rows.Scan(&climb.Date, &climb.Rating, &climb.IsChallenge, &climb.CreatedAt); err != nil {
+		row := &selectUserClimbsWithFilesRow{
+			climb: &models.Climb{},
+		}
+		if err := rows.Scan(&row.climb.Date, &row.climb.Rating, &row.climb.IsChallenge, &row.climb.CreatedAt, &row.fileToken, &row.fileURL, &row.fileContentType); err != nil {
 			return nil, fmt.Errorf("error reading a climb: %w", err)
 		}
-		climbs = append(climbs, climb)
+		if row.fileToken != nil && len(*row.fileToken) > 0 {
+			row.climb.Files = append(row.climb.Files, &models.File{
+				Token:       *row.fileToken,
+				URL:         *row.fileURL,
+				ContentType: *row.fileContentType,
+			})
+		}
+
+		climbs = append(climbs, row.climb)
 	}
 
 	if err := rows.Err(); err != nil {

@@ -31,7 +31,7 @@ func (s *Server) listUserClimbsHandler(w http.ResponseWriter, httpReq *http.Requ
 
 	}
 
-	climbs, err := s.database.ListUserClimbs(userId, category)
+	climbs, err := s.database.ListUserClimbsWithFiles(userId, category)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))

@@ -16,6 +16,7 @@ type postClimbRequest struct {
 	Rating      int    `json:"rating"`
 	Date        string `json:"date"`
 	IsChallenge bool   `json:"is_challenge"`
+	FileToken   string `json:"file_token"`
 }
 
 func (req *postClimbRequest) toModel() *models.Climb {
@@ -55,11 +56,19 @@ func (s *Server) postClimbHandler(w http.ResponseWriter, httpReq *http.Request) 
 	}
 
 	climbModel := req.toModel()
-	fmt.Printf("model: %+v", climbModel)
-	if err := s.database.CreateClimb(climbModel); err != nil {
+	climbID, err := s.database.CreateClimb(climbModel)
+	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 		return
+	}
+
+	if len(req.FileToken) > 0 {
+		if err := s.database.LinkFileToClimb(req.FileToken, climbID); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+			return
+		}
 	}
 
 	w.Write([]byte("success"))

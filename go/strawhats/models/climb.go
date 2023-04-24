@@ -9,4 +9,5 @@ type Climb struct {
 	Date        time.Time     `json:"date"`
 	IsChallenge bool          `json:"is_challenge"`
 	CreatedAt   time.Time     `json:"created_at"`
+	Files       []*File       `json:"files"`
 }

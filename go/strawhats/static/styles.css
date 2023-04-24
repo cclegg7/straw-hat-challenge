@@ -36,3 +36,7 @@
 #logo {
   cursor: pointer;
 }
+
+.full-width-img {
+  width: 100%;
+}

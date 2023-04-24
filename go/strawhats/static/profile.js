@@ -21,6 +21,7 @@ const boulderRatings = {
   2: "V1-2",
   3: "V2-4",
   4: "V4-6",
+  5: "V6-8"
 };
 
 const topropeRatings = {
@@ -30,6 +31,7 @@ const topropeRatings = {
   3: "5.9",
   4: "5.10",
   5: "5.11",
+  6: "5.12"
 };
 
 async function fetchRuns() {
@@ -67,7 +69,7 @@ function formatDate(date) {
 }
 
 function populateRuns(runs) {
-  runs?.forEach(({ date, distance, created_at }) => {
+  runs?.forEach(({ date, distance, created_at, files }) => {
     const row = document.createElement("tr");
 
     // add date
@@ -84,9 +86,21 @@ function populateRuns(runs) {
 
     // add created at
     const createdAtCell = document.createElement("td");
-    const mod_createdAt = new Date(created_at).toString();
+    const mod_createdAt = new Date(created_at).toLocaleString();
     createdAtCell.appendChild(document.createTextNode(mod_createdAt));
     row.appendChild(createdAtCell);
+
+    // add link to file
+    const fileCell = document.createElement("td");
+    if (files?.length > 0) {
+      const file = files[0];
+      const fileLink = document.createElement("a");
+      fileLink.appendChild(document.createTextNode("media"));
+      fileLink.setAttribute("target", "_blank");
+      fileLink.setAttribute("href", `/media.html?src=${file.url}&content_type=${file.content_type}`);
+      fileCell.appendChild(fileLink);
+    }
+    row.appendChild(fileCell);
 
     // add row to table
     runsTable.appendChild(row);
@@ -94,7 +108,7 @@ function populateRuns(runs) {
 }
 
 function populateBoulders(boulders) {
-  boulders?.forEach(({ date, rating, is_challenge, created_at }) => {
+  boulders?.forEach(({ date, rating, is_challenge, created_at, files }) => {
     const row = document.createElement("tr");
 
     // add date
@@ -117,9 +131,21 @@ function populateBoulders(boulders) {
 
     // add created at
     const createdAtCell = document.createElement("td");
-    const mod_createdAt = new Date(created_at).toString();
+    const mod_createdAt = new Date(created_at).toLocaleString();
     createdAtCell.appendChild(document.createTextNode(mod_createdAt));
     row.appendChild(createdAtCell);
+
+    // add link to file
+    const fileCell = document.createElement("td");
+    if (files?.length > 0) {
+      const file = files[0];
+      const fileLink = document.createElement("a");
+      fileLink.appendChild(document.createTextNode("media"));
+      fileLink.setAttribute("target", "_blank");
+      fileLink.setAttribute("href", `/media.html?src=${file.url}&content_type=${file.content_type}`);
+      fileCell.appendChild(fileLink);
+    }
+    row.appendChild(fileCell);
 
     // add row to table
     bouldersTable.appendChild(row);
@@ -127,7 +153,7 @@ function populateBoulders(boulders) {
 }
 
 function populateTopropes(topropes) {
-  topropes?.forEach(({ date, rating, is_challenge, created_at }) => {
+  topropes?.forEach(({ date, rating, is_challenge, created_at, files }) => {
     const row = document.createElement("tr");
 
     // add date
@@ -150,9 +176,21 @@ function populateTopropes(topropes) {
 
     // add created at
     const createdAtCell = document.createElement("td");
-    const mod_createdAt = new Date(created_at).toString();
+    const mod_createdAt = new Date(created_at).toLocaleString();
     createdAtCell.appendChild(document.createTextNode(mod_createdAt));
     row.appendChild(createdAtCell);
+
+    // add link to file
+    const fileCell = document.createElement("td");
+    if (files?.length > 0) {
+      const file = files[0];
+      const fileLink = document.createElement("a");
+      fileLink.appendChild(document.createTextNode("media"));
+      fileLink.setAttribute("target", "_blank");
+      fileLink.setAttribute("href", `/media.html?src=${file.url}&content_type=${file.content_type}`);
+      fileCell.appendChild(fileLink);
+    }
+    row.appendChild(fileCell);
 
     // add row to table
     topropesTable.appendChild(row);
