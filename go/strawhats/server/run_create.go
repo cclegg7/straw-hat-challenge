@@ -11,9 +11,10 @@ import (
 )
 
 type postRunRequest struct {
-	UserID   int    `json:"user_id"`
-	Distance int    `json:"distance"`
-	Date     string `json:"date"`
+	UserID    int    `json:"user_id"`
+	Distance  int    `json:"distance"`
+	Date      string `json:"date"`
+	FileToken string `json:"file_token"`
 }
 
 func (req *postRunRequest) toModel() *models.Run {
@@ -51,10 +52,19 @@ func (s *Server) postRunHandler(w http.ResponseWriter, httpReq *http.Request) {
 	}
 
 	runModel := req.toModel()
-	if err := s.database.CreateRun(runModel); err != nil {
+	runID, err := s.database.CreateRun(runModel)
+	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 		return
+	}
+
+	if len(req.FileToken) > 0 {
+		if err := s.database.LinkFileToRun(req.FileToken, runID); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+			return
+		}
 	}
 
 	w.Write([]byte("success"))

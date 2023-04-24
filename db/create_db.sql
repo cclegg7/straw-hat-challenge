@@ -41,11 +41,17 @@ CREATE TABLE
         FOREIGN KEY (user_id) REFERENCES users (id)
     );
 
-CREATE TABLE
-    climb_files (
-        id INT NOT NULL AUTO_INCREMENT,
-        climb_id INT,
-        url VARCHAR(200),
-        PRIMARY KEY (id),
-        FOREIGN KEY (climb_id) REFERENCES climbs (id)
-    );
+CREATE TABLE files (
+      id INT NOT NULL AUTO_INCREMENT,
+      token VARCHAR(100),
+      url VARCHAR(200),
+      content_type varchar(100),
+      type SMALLINT,
+      climb_id INT,
+      run_id INT,
+      PRIMARY KEY (id),
+      UNIQUE KEY (token),
+      FOREIGN KEY (climb_id) REFERENCES climbs (id),
+      FOREIGN KEY (run_id) REFERENCES runs (id),
+      INDEX (token)
+);

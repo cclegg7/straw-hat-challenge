@@ -21,7 +21,7 @@ func (s *Server) listUserRunsHandler(w http.ResponseWriter, httpReq *http.Reques
 		return
 	}
 
-	runs, err := s.database.ListUserRuns(userId)
+	runs, err := s.database.ListUserRunsWithFiles(userId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
