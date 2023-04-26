@@ -19,7 +19,7 @@ form.addEventListener('submit', async function(e) {
     if (isValid(json)) {
         setLoadingState();
         const file = formData.get('file');
-        if (file) {
+        if (hasFile()) {
             json.file_token = await uploadFile(file);
         }
         await postData('/run', json);

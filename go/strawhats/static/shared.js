@@ -18,6 +18,11 @@ function isNumber(value) {
   return typeof value === 'number' && !isNaN(value);
 }
 
+function hasFile() {
+  const fileInput = document.getElementById('file');
+  return fileInput?.value?.length > 0;
+}
+
 async function uploadFile(file) {
   const formData = new FormData();
   formData.append('file', file, file.name);
