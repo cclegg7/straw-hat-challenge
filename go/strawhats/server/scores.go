@@ -3,9 +3,9 @@ package server
 import (
 	"encoding/json"
 	"net/http"
-	"time"
 
-	"github.com/cclegg7/straw-hat-challenge/domain/scoreboard"
+	"github.com/cclegg7/straw-hat-challenge/domain/scores"
+	"github.com/cclegg7/straw-hat-challenge/models"
 )
 
 type scoreEntry struct {
@@ -20,7 +20,7 @@ type getScoresResponse struct {
 	Scores []*scoreEntry `json:"scores"`
 }
 
-func (res *getScoresResponse) fromScores(scores []*scoreboard.Score) {
+func (res *getScoresResponse) fromScores(scores []*models.Score) {
 	for i, score := range scores {
 		res.Scores = append(res.Scores, &scoreEntry{
 			Rank:           i + 1,
@@ -33,11 +33,8 @@ func (res *getScoresResponse) fromScores(scores []*scoreboard.Score) {
 }
 
 func (s *Server) getScoresHandler(w http.ResponseWriter, _ *http.Request) {
-	startTime, _ := time.Parse("2006-01-02", "2023-04-10")
-	endTime, _ := time.Parse("2006-01-02", "2023-05-10")
-	scoreCalculator := scoreboard.New(s.database, startTime, endTime)
-
-	scores, err := scoreCalculator.AllScoresSorted()
+	calculator := scores.NewCalculator(s.database)
+	scores, err := calculator.AllTotalScores()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))

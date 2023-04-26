@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/cclegg7/straw-hat-challenge/models"
 )
@@ -29,27 +28,28 @@ type AggregateClimbs struct {
 	TopRopes map[models.TopRopeDifficulty]int
 }
 
-const topClimbsQuery = `SELECT user_id, category, rating, date 
-FROM climbs 
-WHERE 
-    user_id = ? 
-	AND date >= ? 
-    AND date <= ?
-	AND category = ?
+const selectUserWeeklyCLimbsQuery = `
+SELECT 
+	week_num, 
+	category,
+	rating,
+	is_challenge
+from climbs_with_week_info
+WHERE user_id = ? AND (week_num BETWEEN ? AND ?) AND category = ?
 ORDER BY rating DESC
 LIMIT 5`
 
-func (d *Database) GetTopClimbsInCategoryForUserID(userID int, start, end time.Time, category models.ClimbCategory) ([]*models.Climb, error) {
-	rows, err := d.db.Query(topClimbsQuery, userID, formatDate(start), formatDate(end), category)
+func (d *Database) GetTopClimbsInCategoryForUserID(userID int, startWeek int, endWeek int, category models.ClimbCategory) ([]*models.Climb, error) {
+	rows, err := d.db.Query(selectUserWeeklyCLimbsQuery, userID, startWeek, endWeek, category)
 	if err != nil {
-		return nil, fmt.Errorf("error querying for top climbs: %w", err)
+		return nil, fmt.Errorf("error querying for rotation climbs: %w", err)
 	}
 	defer rows.Close()
 
 	var climbs []*models.Climb
 	for rows.Next() {
 		climb := &models.Climb{}
-		if err := rows.Scan(&climb.UserID, &climb.Category, &climb.Rating, &climb.Date); err != nil {
+		if err := rows.Scan(&climb.UserID, &climb.Category, &climb.Rating, &climb.IsChallenge); err != nil {
 			return nil, fmt.Errorf("error reading a user: %w", err)
 		}
 		climbs = append(climbs, climb)
@@ -57,39 +57,8 @@ func (d *Database) GetTopClimbsInCategoryForUserID(userID int, start, end time.T
 	if err := rows.Err(); err != nil {
 		return nil, fmt.Errorf("error on top climbs result: %w", err)
 	}
+
 	return climbs, nil
-}
-
-func (d *Database) GetTopClimbsForUsers(users []*models.User, start, end time.Time) (map[*models.User]*AggregateClimbs, error) {
-	results := make(map[*models.User]*AggregateClimbs)
-	for _, user := range users {
-		aggregateClimbs := &AggregateClimbs{
-			Boulders: make(map[models.BoulderDifficulty]int),
-			TopRopes: make(map[models.TopRopeDifficulty]int),
-		}
-
-		topBoulders, err := d.GetTopClimbsInCategoryForUserID(user.ID, start, end, models.ClimbCategory_Boulder)
-		if err != nil {
-			return nil, fmt.Errorf("error fetching boulders for user %d: %w", user.ID, err)
-		}
-
-		for _, boulder := range topBoulders {
-			aggregateClimbs.Boulders[models.BoulderDifficulty(boulder.Rating)]++
-		}
-
-		topTopRopes, err := d.GetTopClimbsInCategoryForUserID(user.ID, start, end, models.ClimbCategory_TopRope)
-		if err != nil {
-			return nil, fmt.Errorf("error fetching top ropes for user %d: %w", user.ID, err)
-		}
-
-		for _, topRope := range topTopRopes {
-			aggregateClimbs.TopRopes[models.TopRopeDifficulty(topRope.Rating)]++
-		}
-
-		results[user] = aggregateClimbs
-	}
-
-	return results, nil
 }
 
 const selectUserClimbsWithFilesQuery = "SELECT date, rating, is_challenge, created_at, f.token, f.url, f.content_type FROM climbs c LEFT OUTER JOIN files f ON (c.id = f.climb_id) WHERE user_id = ? AND category = ? ORDER BY date DESC"
