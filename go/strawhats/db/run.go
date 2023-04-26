@@ -61,3 +61,50 @@ func (d *Database) ListUserRunsWithFiles(userID int) ([]*models.Run, error) {
 	}
 	return runs, nil
 }
+
+type RunsForWeek struct {
+	Weekday     int
+	Weekend     int
+	MaxDistance int
+}
+
+func (d *Database) GetRunsByWeekForUserID(userID int) (map[int]*RunsForWeek, error) {
+	rows, err := d.db.Query(selectUserWeeklyRunsQuery, userID)
+	if err != nil {
+		return nil, fmt.Errorf("error querying for runs for a user: %w", err)
+	}
+	defer rows.Close()
+
+	runsByWeek := make(map[int]*RunsForWeek)
+	for rows.Next() {
+		var week, is_weekend, runCount, maxDistance int
+		if err := rows.Scan(&week, &is_weekend, &runCount, &maxDistance); err != nil {
+			return nil, fmt.Errorf("error reading a row: %w", err)
+		}
+
+		if runsByWeek[week] == nil {
+			runsByWeek[week] = &RunsForWeek{}
+		}
+
+		if is_weekend == 1 {
+			runsByWeek[week].Weekend = runCount
+		} else {
+			runsByWeek[week].Weekday = runCount
+		}
+
+		if runsByWeek[week].MaxDistance < maxDistance {
+			runsByWeek[week].MaxDistance = maxDistance
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error on user runs result: %w", err)
+	}
+
+	return runsByWeek, nil
+}
+
+const selectUserWeeklyRunsQuery = `
+SELECT week_num, is_weekend, COUNT(1), MAX(distance)
+from runs_with_week_info
+WHERE user_id = ?
+GROUP BY week_num, is_weekend`
