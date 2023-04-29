@@ -17,39 +17,39 @@
     <title>Straw Hat Challenge</title>
   </head>
 
-  <body>
-    <div class="container-fluid">
-      <div class="card m-3">
-        <div class="card-header">
-          <h6 class="card-title">
-            Monkey (D. Luffy) Bars: Complete an overhang climb and score an
-            additional 25 points!
-          </h6>
+ <body>
+      
+      <div class="my-5 position-relative" style="width: 100%">
+        <img class="main-logo" src="images/character_icons/luffy.svg" width="120" height="120" alt="">
+        <div class="py-0 row bg-dark">
+          <span class="col-6 px-5 text-white text-end" style="font-weight:bold">
+           STRAW HAT
+          </span>
+          
+          <span class="col-6 px-5 text-white text-start" style="font-weight:bold">
+            CHALLENGE
+          </span>
         </div>
       </div>
+      
+      <div class="container scoreboard_width">
+        <div class="mx-1 progressbar_width">
+          <div class="mx-3 progress" role="progressbar">
+            <div id="progressBar" class="progress-bar bg-danger"></div>
+          </div>
+          <div class="row">
+            <span class="col-6"  style="font-weight:bold">4/15</span>
+            <span class="col-6 text-end"style="font-weight:bold">8/18</span>
+          </div>
+        </div>
 
-      <h1 class="scoreboard_title">Straw Hat Challenge</h1>
+        <div id="scoreboard">
+        </div>
 
-      <table
-        class="scoreboard_width table table-striped table-hover table-sm center table-responsive-sm"
-      >
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Jolly Roger</th>
-            <th>Name</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody id="scoreboard"></tbody>
-        <!-- Scores inserted here by javascript on page load  -->
-      </table>
-      <div class="button-row">
-        <a class="btn btn-primary" href="log-run.html">Log a Run</a>
-        <a class="btn btn-primary" href="log-toprope.html">Log a Top Rope</a>
-        <a class="btn btn-primary" href="log-boulder.html">Log a Boulder</a>
+        <div  class="row m-3">
+          <a type="button" class="rounded-pill btn btn-danger btn-lg" href="log-activity.html">LOG ACTIVITY</a>
+        </div>
       </div>
-    </div>
 
     <script src="/index.js"></script>
     <script

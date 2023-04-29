@@ -18,8 +18,8 @@ function isNumber(value) {
   return typeof value === 'number' && !isNaN(value);
 }
 
-function hasFile() {
-  const fileInput = document.getElementById('file');
+function hasFile(formId) {
+  const fileInput = document.querySelector(`#${formId} input[type="file"]`);
   return fileInput?.value?.length > 0;
 }
 
@@ -35,8 +35,8 @@ async function uploadFile(file) {
   return jsonResponse.file_token;
 }
 
-function setLoadingState() {
-  const submitButton = document.querySelector('button[type="submit"]')
+function setLoadingState(formId) {
+  const submitButton = document.querySelector(`#${formId} button[type="submit"]`);
   submitButton?.setAttribute('disabled', true);
   submitButton.innerHTML = '';
   const spinner = document.createElement('span');
