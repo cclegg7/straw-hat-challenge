@@ -1,3 +1,9 @@
+.main-logo {
+  position: absolute;
+  left: calc(50% - 60px);
+  top: -50px;
+}
+
 .scoreboard__row {
   cursor: pointer;
 }
@@ -8,6 +14,10 @@
 
 .scoreboard_width {
   max-width: 600px;
+}
+
+.progressbar_width {
+  max-width: 650px;
 }
 
 .center {
@@ -39,4 +49,9 @@
 
 .full-width-img {
   width: 100%;
+}
+
+.scoreboard_table {
+  border-collapse: separate;
+  border-spacing: 100px;
 }
