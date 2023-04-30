@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm -R dist
 mkdir dist
 GOOS=linux GOARCH=amd64 go build -o ./dist/strawhats ./server/main/main.go
 cp -r ./static ./dist/static
