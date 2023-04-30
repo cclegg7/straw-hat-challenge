@@ -13,13 +13,13 @@ func (c *Calculator) runningScore(user *models.User) (int, error) {
 	startWeek := rotations[0].startWeek
 	lastWeek := rotations[len(rotations)-1].endWeek
 	runCounts := []int{}
-	completedDistanceGoal := make(map[int]bool)
 	for currentWeek := startWeek; currentWeek <= lastWeek; currentWeek++ {
 		runs, ok := runsByWeek[currentWeek]
 		if !ok {
 			runCounts = append(runCounts, 0)
 			continue
 		}
+
 		totalRuns := runs.Weekday + runs.Weekend
 		if totalRuns >= 3 {
 			runCounts = append(runCounts, 3)
@@ -35,14 +35,6 @@ func (c *Calculator) runningScore(user *models.User) (int, error) {
 			}
 		}
 		runCounts = append(runCounts, totalRuns)
-
-		for i, rotation := range rotations {
-			if currentWeek >= rotation.startWeek && currentWeek <= rotation.endWeek {
-				if runs.MaxDistance >= rotation.distance {
-					completedDistanceGoal[i] = true
-				}
-			}
-		}
 	}
 
 	score := 0
@@ -53,11 +45,17 @@ func (c *Calculator) runningScore(user *models.User) (int, error) {
 		}
 	}
 
-	for _, completedDistance := range completedDistanceGoal {
-		if completedDistance {
-			score += 100
+	var completedDistanceGoals int
+	for _, rotation := range rotations {
+		for currentWeek := rotation.startWeek; currentWeek <= rotation.endWeek; currentWeek++ {
+			if runs, ok := runsByWeek[currentWeek]; ok && runs.MaxDistance >= rotation.distance {
+				completedDistanceGoals++
+				break
+			}
 		}
 	}
+
+	score += 100 * completedDistanceGoals
 
 	return score, err
 }

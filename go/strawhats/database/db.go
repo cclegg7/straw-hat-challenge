@@ -1,7 +1,8 @@
-package db
+package database
 
 import (
 	"database/sql"
+	"github.com/cclegg7/straw-hat-challenge/configs"
 	"log"
 
 	"github.com/go-sql-driver/mysql"
@@ -11,16 +12,16 @@ type Database struct {
 	db *sql.DB
 }
 
-func NewDatabase() (*Database, error) {
+func New(configs *configs.Database) (*Database, error) {
 	// Capture connection properties.
 	cfg := mysql.Config{
-		User:                 "root",
-		Passwd:               "",
+		User:                 configs.User,
+		Passwd:               configs.Password,
 		Net:                  "tcp",
-		Addr:                 "localhost",
-		DBName:               "straw_hat_challenge",
+		Addr:                 configs.Hostname,
+		DBName:               configs.Name,
 		AllowNativePasswords: true,
-		ParseTime: true,
+		ParseTime:            true,
 	}
 
 	// Get a database handle.

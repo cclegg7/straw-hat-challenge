@@ -1,17 +1,17 @@
 package scores
 
 import (
+	"github.com/cclegg7/straw-hat-challenge/database"
 	"sort"
 
-	"github.com/cclegg7/straw-hat-challenge/db"
 	"github.com/cclegg7/straw-hat-challenge/models"
 )
 
 type Calculator struct {
-	database *db.Database
+	database *database.Database
 }
 
-func NewCalculator(database *db.Database) *Calculator {
+func NewCalculator(database *database.Database) *Calculator {
 	return &Calculator{
 		database: database,
 	}
